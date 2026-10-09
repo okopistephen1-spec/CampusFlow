@@ -1,0 +1,32 @@
+[
+    {
+        "id": "T001",
+        "title": "faulty laptop",
+        "category": "Hardware",
+        "urgency": "medium",
+        "affected_users": 6,
+        "priority": "medium",
+        "status": "open",
+        "assigned_to": null
+    },
+    {
+        "id": "T002",
+        "title": "Campus Wi-Fi is down",
+        "category": "Network",
+        "urgency": "high",
+        "affected_users": 7,
+        "priority": "high",
+        "status": "open",
+        "assigned_to": null
+    },
+    {
+        "id": "T003",
+        "title": "Bad Keyboard",
+        "category": "Other",
+        "urgency": "high",
+        "affected_users": 9,
+        "priority": "high",
+        "status": "open",
+        "assigned_to": null
+    }
+]
