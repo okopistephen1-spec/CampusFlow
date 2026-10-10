@@ -6,8 +6,8 @@
         "urgency": "medium",
         "affected_users": 6,
         "priority": "medium",
-        "status": "open",
-        "assigned_to": null
+        "status": "in_progress",
+        "assigned_to": "Stephen"
     },
     {
         "id": "T002",
@@ -16,7 +16,7 @@
         "urgency": "high",
         "affected_users": 7,
         "priority": "high",
-        "status": "open",
+        "status": "resolved",
         "assigned_to": null
     },
     {
@@ -26,6 +26,16 @@
         "urgency": "high",
         "affected_users": 9,
         "priority": "high",
+        "status": "resolved",
+        "assigned_to": null
+    },
+    {
+        "id": "T004",
+        "title": "Faulty Mouse",
+        "category": "Hardware",
+        "urgency": "medium",
+        "affected_users": 7,
+        "priority": "medium",
         "status": "open",
         "assigned_to": null
     }
