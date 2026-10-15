@@ -7,7 +7,14 @@
         "affected_users": 6,
         "priority": "medium",
         "status": "in_progress",
-        "assigned_to": "Stephen"
+        "assigned_to": "Stephen",
+        "notes": [
+            {
+                "note_id": "N001",
+                "author": "John",
+                "message": "noted"
+            }
+        ]
     },
     {
         "id": "T002",
@@ -38,5 +45,16 @@
         "priority": "medium",
         "status": "open",
         "assigned_to": null
+    },
+    {
+        "id": "T005",
+        "title": "No electricity",
+        "category": "Hardware",
+        "urgency": "high",
+        "affected_users": 10,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": null,
+        "notes": []
     }
 ]
