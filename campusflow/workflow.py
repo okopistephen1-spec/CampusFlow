@@ -19,7 +19,7 @@ def search_tickets(tickets, title="", category="", status="", priority=""):
             continue
 
         
-        if category and ticket["category"] != category:
+        if category and ticket["category"].casefold() != category.casefold():
             continue
 
         

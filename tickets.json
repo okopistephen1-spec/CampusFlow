@@ -45,5 +45,16 @@
         "priority": "medium",
         "status": "open",
         "assigned_to": null
+    },
+    {
+        "id": "T005",
+        "title": "No electricity",
+        "category": "Hardware",
+        "urgency": "high",
+        "affected_users": 10,
+        "priority": "critical",
+        "status": "open",
+        "assigned_to": null,
+        "notes": []
     }
 ]

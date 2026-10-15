@@ -38,9 +38,18 @@ def create_new_ticket():
             "Enter ticket category (Network/Hardware/Software/Other): "
         ).strip()
 
-        if validate_category(category):
-            break
+        validate_categories = {
+            "network": "Network",
+            "hardware": "Hardware",
+            "software": "Software",
+            "other": "Other",
+        }
 
+        category = validate_categories.get(category.casefold())
+
+        if category:
+            break
+        
         print("Invalid category. Please try again.")
 
     while True:
@@ -237,9 +246,19 @@ def search_tickets_by_title(tickets):
         "enter the category either(Network/Hardware/Software/Other)"
     ).strip()
 
-    if category and category not in {"Network", "Hardware", "Software", "OTher"}:
-        print("Invalid category")
-        return
+    valid_categories = {
+    "network": "Network",
+    "hardware": "Hardware",
+    "software": "Software",
+    "other": "Other",
+    }
+
+    if category:
+        category = valid_categories.get(category.casefold())
+
+        if category is None:
+            print("Invalid category. Please try again")
+            return
 
     status = input(
         "enter status(open/in_progress/resolved), "
@@ -373,7 +392,7 @@ def main():
     while True:
         print("\n==== CAMPUS FLOW ====")
         print("1. Create a ticket")
-        print("2. View all tickets")
+        print("2. View Tickets")
         print("3. Update ticket status")
         print("4. Assign ticket")
         print("5. Search ticket by ID")
