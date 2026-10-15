@@ -7,6 +7,8 @@ from campusflow.tickets import (
 )
 
 from campusflow.workflow import (
+    find_ticket,
+    search_tickets,
     assign_ticket as assign_ticket_record,
     update_ticket_status as apply_status_change,
     add_note,
@@ -212,28 +214,75 @@ def search_ticket(tickets):
         print("\nNo tickets available to search.")
         return
 
-    ticket_id = input(
-        "Enter the ticket ID to search for: "
+    try:
+        ticket = find_ticket(tickets, ticket_id)
+
+        print("\n===== TICKET FOUND =====")
+        print(f"ID: {ticket['id']}")
+        print(f"Title: {ticket['title']}")
+        print(f"Category: {ticket['category']}")
+        print(f"Urgency: {ticket['urgency']}")
+        print(f"Affected Users: {ticket['affected_users']}")
+        print(f"Priority: {ticket['priority']}")
+        print(f"Status: {ticket['status']}")
+        print(f"Assigned To: {ticket['assigned_to']}")
+
+    except ValueError as error:
+        print(error)
+
+def search_tickets_by_title(tickets):
+    title = input("Enter the title of the ticket: ").strip()
+
+    category = input(
+        "enter the category either(Network/Hardware/Software/Other)"
     ).strip()
 
-    ticket = next(
-        (item for item in tickets if item["id"] == ticket_id),
-        None,
-    )
-
-    if ticket is None:
-        print("Ticket ID not found.")
+    if category and category not in {"Network", "Hardware", "Software", "OTher"}:
+        print("Invalid category")
         return
 
-    print("\n===== TICKET FOUND =====")
-    print(f"ID: {ticket['id']}")
-    print(f"Title: {ticket['title']}")
-    print(f"Category: {ticket['category']}")
-    print(f"Urgency: {ticket['urgency']}")
-    print(f"Affected Users: {ticket['affected_users']}")
-    print(f"Priority: {ticket['priority']}")
-    print(f"Status: {ticket['status']}")
-    print(f"Assigned To: {ticket['assigned_to']}")
+    status = input(
+        "enter status(open/in_progress/resolved), "
+        "or press Enter to skip"
+    ).strip().lower()
+
+    if status and status not in {"open", "in_progress", "resolved"}:
+        print("Invalid status")
+        return
+
+    priority = input(
+        "enter priority (critical/high/medium/low), "
+        "or press Enter to skip"
+    ).strip().lower()
+
+    if priority and priority not in {"critical", "high", "medium", "low"}:
+        print("Wrong priority")
+        return
+
+    results = search_tickets(
+        tickets,
+        title=title,
+        category=category,
+        status=status,
+        priority=priority,
+    )
+
+    if not results:
+        print("No result matched the ticket")
+        return
+
+    print(f"\nFound {len(results)} matching ticket(s):")
+
+    for ticket in results:
+        print("-" * 35)
+        print(f"ID: {ticket['id']}")
+        print(f"Title: {ticket['title']}")
+        print(f"Category: {ticket['category']}")
+        print(f"Priority: {ticket['priority']}")
+        print(f"Status: {ticket['status']}")
+        print(f"Assigned to: {ticket['assigned_to']}")
+
+    
 
 
 def add_ticket_note(tickets):
@@ -330,7 +379,8 @@ def main():
         print("5. Search ticket by ID")
         print("6. Add a note")
         print("7. View ticket notes")
-        print("8. Exit")
+        print("8. Search ticket by title")
+        print("9. Exit")
 
         choice = input("Please choose an option: ").strip()
 
@@ -356,6 +406,9 @@ def main():
             view_ticket_notes(tickets)
 
         elif choice == "8":
+            search_tickets_by_title(tickets)
+
+        elif choice == "9":
             print("Thank you for using Learn2Earn CampusFlow!")
             break
 

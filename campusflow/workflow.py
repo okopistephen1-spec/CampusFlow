@@ -7,6 +7,33 @@ def find_ticket(tickets, ticket_id):
 
     raise ValueError(f"Ticket {ticket_id} was not found.")
 
+def search_tickets(tickets, title="", category="", status="", priority=""):
+    """Search tickets by title and optional filters."""
+
+    results = []
+
+    for ticket in tickets:
+
+        
+        if title.lower() not in ticket["title"].lower():
+            continue
+
+        
+        if category and ticket["category"] != category:
+            continue
+
+        
+        if status and ticket["status"] != status:
+            continue
+
+       
+        if priority and ticket["priority"].lower() != priority.lower():
+            continue
+
+        results.append(ticket)
+
+    return results
+
 
 def assign_ticket(ticket_or_tickets, ticket_id_or_name, staff_name=None):
     """Assign a ticket to a staff member."""
@@ -179,3 +206,4 @@ def view_notes(ticket):
         notes,
         key=lambda note: int(note["note_id"][1:]),
     )
+
