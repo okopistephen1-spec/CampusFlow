@@ -15,6 +15,8 @@ from campusflow.workflow import (
     view_notes,
 )
 
+from campusflow.understanding_check import run_understanding_check
+
 from campusflow.storage import load_tickets, save_tickets
 
 
@@ -399,7 +401,8 @@ def main():
         print("6. Add a note")
         print("7. View ticket notes")
         print("8. Search ticket by title")
-        print("9. Exit")
+        print("9. Engineering understanding Check")
+        print("10. Exit")
 
         choice = input("Please choose an option: ").strip()
 
@@ -428,6 +431,9 @@ def main():
             search_tickets_by_title(tickets)
 
         elif choice == "9":
+            run_understanding_check()
+
+        elif choice == "10":
             print("Thank you for using Learn2Earn CampusFlow!")
             break
 
