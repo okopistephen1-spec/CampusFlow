@@ -9,6 +9,8 @@ from campusflow.tickets import (
 from campusflow.workflow import (
     find_ticket,
     search_tickets,
+    sort_results_by_priority,
+    get_work_queue,
     assign_ticket as assign_ticket_record,
     update_ticket_status as apply_status_change,
     add_note,
@@ -224,6 +226,8 @@ def search_ticket(tickets):
     if not tickets:
         print("\nNo tickets available to search.")
         return
+
+    ticket_id = input("Enter the ticket ID you want to find: ").strip()
 
     try:
         ticket = find_ticket(tickets, ticket_id)
