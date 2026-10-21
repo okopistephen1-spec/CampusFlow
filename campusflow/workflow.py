@@ -15,7 +15,8 @@ def search_tickets(tickets, title="", category="", status="", priority=""):
     for ticket in tickets:
 
         
-        if title.lower() not in ticket["title"].lower():
+        # casefold() is stronger than lower() for caseless matching (B1).
+        if title.casefold() not in ticket["title"].casefold():
             continue
 
         
@@ -207,3 +208,26 @@ def view_notes(ticket):
         key=lambda note: int(note["note_id"][1:]),
     )
 
+
+
+def sort_results_by_priority(results):
+    """Return search results sorted by priority, then numeric ticket ID.
+
+    Required by Requirement D: numeric ordering means T002 sorts before
+    T010 (plain text sorting would put T010 first).
+    """
+
+    priority_order = {
+        "critical": 0,
+        "high": 1,
+        "medium": 2,
+        "low": 3,
+    }
+
+    def sort_key(ticket):
+        priority = str(ticket.get("priority", "")).casefold()
+        ticket_number = int(str(ticket["id"])[1:])
+
+        return (priority_order.get(priority, 99), ticket_number)
+
+    return sorted(results, key=sort_key)

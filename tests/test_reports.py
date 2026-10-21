@@ -87,6 +87,8 @@ class TestTicketReports(unittest.TestCase):
         )
 
     def test_handles_empty_ticket_list(self):
+        # Stale expectation removed: the report now also includes
+        # by_category, unresolved and resolution_percentage (Requirement D).
         report = generate_ticket_report([])
 
         self.assertEqual(
@@ -96,9 +98,47 @@ class TestTicketReports(unittest.TestCase):
                 "open": 0,
                 "in_progress": 0,
                 "resolved": 0,
+                "unresolved": 0,
+                "resolution_percentage": 0,
                 "by_priority": {},
+                "by_category": {},
                 "by_assignee": {},
             },
+        )
+
+    def test_empty_report_resolution_percentage_is_zero_not_error(self):
+        # Acceptance case 10: 0% with no division error.
+        report = generate_ticket_report([])
+
+        self.assertEqual(report["resolution_percentage"], 0)
+
+    def test_counts_follow_current_status_after_resolve_and_reopen(self):
+        # Acceptance case 11: a resolved-then-reopened ticket counts as
+        # its CURRENT status; statuses never double-count.
+        resolved_then_reopened = make_ticket(
+            "T004",
+            status="open",
+            assigned_to="Mary",
+        )
+        tickets = [
+            make_ticket("T001", status="open"),
+            make_ticket("T002", status="in_progress", assigned_to="John"),
+            make_ticket("T003", status="resolved", assigned_to="John"),
+            resolved_then_reopened,
+        ]
+
+        report = generate_ticket_report(tickets)
+
+        self.assertEqual(report["total"], 4)
+        self.assertEqual(report["open"], 2)
+        self.assertEqual(report["in_progress"], 1)
+        self.assertEqual(report["resolved"], 1)
+        self.assertEqual(report["unresolved"], 3)
+        self.assertEqual(report["resolution_percentage"], 25.0)
+        # No double counting across statuses.
+        self.assertEqual(
+            report["open"] + report["in_progress"] + report["resolved"],
+            report["total"],
         )
 
     def test_does_not_modify_original_tickets(self):
